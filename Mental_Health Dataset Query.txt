@@ -1,0 +1,175 @@
+Mental_Health Dataset
+1,What is the average age of individuals with mental health conditions versus those without?
+SELECT 
+	Mental_Health_Condition, 
+	AVG(Age) AS Average_Age
+FROM dbo.mental_health_dataset
+GROUP BY Mental_Health_Condition;
+
+
+
+2,What is the distribution of mental health conditions across different countries?
+SELECT 
+	Country,
+	Mental_Health_Condition,
+	Count(*) as Num_of_Individuals
+FROM
+	dbo.mental_health_dataset
+Group By 
+	Mental_Health_Condition, Country
+Order BY 
+	Mental_Health_Condition, Country
+
+3,Question: What is the average stress level by severity of mental health condition (Low, Medium, High)?
+SELECT Severity, 
+	AVG(CASE WHEN Stress_Level = 'Low' THEN 1
+			 WHEN Stress_Level = 'Medium' THEN 2
+			 WHEN Stress_Level = 'High' THEN 3
+             END) AS Average_Stress_Level
+FROM dbo.mental_health_dataset
+GROUP BY Severity;
+
+4,What is the average number of hours worked per week by individuals with and without mental health conditions?
+SELECT
+	Mental_Health_Condition,
+	Severity,
+	Round(AVG(Sleep_Hours),2) as Average_Sleep_Hours
+FROM
+	dbo.mental_health_dataset
+GROUP BY 
+	Mental_Health_Condition,Severity
+ORDER BY 
+	Mental_Health_Condition,Severity
+
+5, How does physical activity correlate with mental health conditions?
+
+SELECT
+	Mental_Health_Condition,
+	AVG(Work_Hours) as Average_Work_Hours,
+	AVG(Physical_Activity_Hours) as Average_Physical_Activity_Hours
+FROM
+	dbo.mental_health_dataset
+GROUP BY 
+	Mental_Health_Condition;
+
+6, How does severity of mental health conditions (None, Low, Medium, High) impact sleep hours?
+SELECT
+	Severity,
+	ROUND(AVG(Sleep_Hours),2) as Average_Sleep_Hours
+FROM
+	dbo.mental_health_dataset
+GROUP BY 
+	Severity
+
+7, What is the distribution of severity levels among individuals with mental health conditions?
+
+SELECT
+	Severity, COUNT(*) AS Count
+FROM
+	dbo.mental_health_dataset
+WHERE 
+	Mental_Health_Condition = '1'
+GROUP BY 
+	Severity
+
+8, What is the breakdown of mental health conditions by gender?
+SELECT
+	Gender, 
+	Mental_Health_Condition, COUNT(*) as Count
+FROM
+	dbo.mental_health_dataset
+GROUP BY 
+	Gender, Mental_Health_Condition
+ORDER BY 
+	Gender
+
+9, How does the average age of individuals with mental health conditions compare to those without it, across different genders?
+SELECT
+    Gender,
+	AVG(Age) as Average_Age,
+	Mental_Health_Condition, COUNT(*) as Count
+FROM
+	dbo.mental_health_dataset
+GROUP BY 
+	Gender, Mental_Health_Condition
+ORDER BY 
+	Gender, Mental_Health_Condition
+
+10, What percentage of individuals who have a history of consultation have high stress levels?
+
+SELECT Consultation_History, 
+       ROUND(COUNT(CASE WHEN Stress_Level = 'High' THEN 1 END) * 100.0 / COUNT(*),2) AS High_Stress_Percentage
+FROM 
+	dbo.mental_health_dataset
+GROUP BY 
+	Consultation_History;
+
+11, What is the average work hours for individuals who have and have not sought mental health consultation?
+
+SELECT Consultation_History, 
+       AVG(Work_Hours) as Average_Work_Hours
+FROM 
+	dbo.mental_health_dataset
+GROUP BY 
+	Consultation_History;
+
+12, Which country has the highest number of individuals with high stress levels?
+SELECT 
+	Country, COUNT(*) AS High_Stress_Count
+FROM 
+	dbo.mental_health_dataset
+WHERE 
+	Stress_Level = 'High'
+GROUP BY 
+	Country
+ORDER BY 
+	High_Stress_Count DESC
+
+13, What is the relationship between occupation and mental health severity?
+
+SELECT 
+	Occupation, 
+	Severity, COUNT(*) AS Count
+FROM 
+	dbo.mental_health_dataset
+GROUP BY 
+	Occupation, Severity
+ORDER BY Count DESC;
+
+
+14, are individuals in certain occupations more likely to experience high stress levels
+
+
+SELECT 
+	Occupation, 
+	COUNT(*) as High_Stress_Count
+FROM 
+	dbo.mental_health_dataset
+WHERE
+	Stress_Level = 'High'
+GROUP BY 
+	Occupation
+ORDER BY High_Stress_Count DESC;
+
+15, How does age affect the likelihood of having a mental health condition and its severity?
+
+SELECT 
+	Age,
+	Mental_Health_Condition,
+	Severity, 
+	COUNT(*) as Count
+FROM 
+	dbo.mental_health_dataset
+GROUP BY 
+	Age, Mental_Health_Condition, Severity
+ORDER BY 
+	Age
+
+
+
+
+
+
+
+
+
